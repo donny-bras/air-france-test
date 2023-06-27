@@ -35,12 +35,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-interface SearchProps {
+interface DebouncedSearchProps {
   initialValue?: string;
   onChange: (value: string) => void;
 }
 
-const Search = ({ initialValue = '', onChange }: SearchProps) => {
+const DebouncedSearch = ({ initialValue = '', onChange }: DebouncedSearchProps) => {
   const [value, setValue] = useState(initialValue);
 
   const debouncedOnChange = useDebounce(() => onChange(value));
@@ -65,4 +65,4 @@ const Search = ({ initialValue = '', onChange }: SearchProps) => {
   );
 };
 
-export default Search;
+export default DebouncedSearch;
