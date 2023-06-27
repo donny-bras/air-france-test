@@ -1,9 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Box, CircularProgress, IconButton, Typography } from '@mui/material';
 
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { favoriteRepositoriesVar } from '../apollo/apollo-client';
@@ -20,25 +15,24 @@ interface RepositoriesListProps {
 }
 
 const SearchResultList = ({ query }: RepositoriesListProps) => {
-  const { loading, error, data } =
-    useQuery(GET_REPOSITORIES, {
-      skip: !query,
-      variables: {
-        type: 'REPOSITORY',
-        query,
-      },
-    });
+  const { loading, error, data } = useQuery(GET_REPOSITORIES, {
+    skip: !query,
+    variables: {
+      type: 'REPOSITORY',
+      query,
+    },
+  });
   const favoriteRepos = useReactiveVar(favoriteRepositoriesVar);
 
   const isFavorite = (repoId: string) => favoriteRepos.has(repoId);
 
   const handleFavorite = (repo: Repository) => {
-      isFavorite(repo.id)
-        ? favoriteRepos.delete(repo.id)
-        : favoriteRepos.set(repo.id, repo);
+    isFavorite(repo.id)
+      ? favoriteRepos.delete(repo.id)
+      : favoriteRepos.set(repo.id, { ...repo, rating: null });
 
-      favoriteRepositoriesVar(new Map(favoriteRepos));
-    };
+    favoriteRepositoriesVar(new Map(favoriteRepos));
+  };
 
   const renderRow = props => {
     const { data, index, style } = props;

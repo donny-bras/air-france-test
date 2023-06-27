@@ -1,9 +1,9 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { makeVar } from '@apollo/client';
-import { Repository } from '../models/Repository';
+import { FavoriteRepository } from '../models/Repository';
 
-export const favoriteRepositoriesVar = makeVar(new Map<string, Repository>());
+export const favoriteRepositoriesVar = makeVar(new Map<string, FavoriteRepository>());
 
 const httpLink = createHttpLink({
   uri: 'https://api.github.com/graphql',

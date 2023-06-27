@@ -1,17 +1,22 @@
-import { ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { ListItem, ListItemButton, ListItemText, Rating } from '@mui/material';
 import { Repository } from '../models/Repository';
 
 interface RepositoryItemProps extends Repository {
   style?: React.CSSProperties;
   action: React.ReactNode;
+  rating?: number | null;
+  onRatingChange?: (repoId: string, newRating: number | null) => void;
 }
 
 const RepositoryItem = ({
+  id,
   url,
   name,
   description,
   style,
   action,
+  rating,
+  onRatingChange,
 }: RepositoryItemProps) => {
   return (
     <ListItem style={style} disablePadding secondaryAction={action}>
@@ -27,6 +32,14 @@ const RepositoryItem = ({
             },
           }}
         />
+        {!(rating === undefined) && (
+          <Rating
+            size="small"
+            value={rating}
+            onChange={(_, newValue) => onRatingChange?.(id, newValue)}
+            sx={{ mr: 1 }}
+          />
+        )}
       </ListItemButton>
     </ListItem>
   );

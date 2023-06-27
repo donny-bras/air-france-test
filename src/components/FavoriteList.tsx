@@ -12,14 +12,26 @@ const FavoritesList = () => {
     favoriteRepositoriesVar(new Map(favoriteRepos));
   };
 
+  const handleRatingChange = (repoId: string, newRating: number | null) => {
+    const repo = favoriteRepos.get(repoId);
+    if (repo) {
+      repo.rating = newRating;
+    }
+    favoriteRepositoriesVar(new Map(favoriteRepos));
+  };
+
   return favoriteRepos.size > 0 ? (
     <List>
       {[...favoriteRepos.values()].map(repo => (
         <RepositoryItem
           {...repo}
           key={repo.id}
+          onRatingChange={handleRatingChange}
           action={
-            <IconButton onClick={() => handleDelete(repo.id)}>
+            <IconButton
+              onClick={() => handleDelete(repo.id)}
+              aria-label="delete"
+            >
               <DeleteForeverIcon />
             </IconButton>
           }

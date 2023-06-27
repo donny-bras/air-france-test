@@ -4,3 +4,7 @@ export interface Repository {
   description: string;
   url: string;
 }
+
+export interface FavoriteRepository extends Repository {
+  rating: number | null
+}
