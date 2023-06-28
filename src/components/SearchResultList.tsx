@@ -4,7 +4,7 @@ import { useQuery, useReactiveVar } from '@apollo/client';
 import { favoriteRepositoriesVar } from '../apollo/apollo-client';
 import { Repository } from '../models/Repository';
 import RepositoryItem from './RepositoryItem';
-import { FixedSizeList } from 'react-window';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -31,11 +31,11 @@ const SearchResultList = ({ query }: RepositoriesListProps) => {
     isFavorite(repo.id)
       ? favoriteRepos.delete(repo.id)
       : favoriteRepos.set(repo.id, { ...repo, rating: null });
-
+    
     favoriteRepositoriesVar(new Map(favoriteRepos));
   };
 
-  const renderRow = props => {
+  const renderRow = (props: ListChildComponentProps<Repository[]>) => {
     const { data, index, style } = props;
     const repo = data[index];
 
@@ -76,7 +76,7 @@ const SearchResultList = ({ query }: RepositoriesListProps) => {
               width={width}
               itemSize={72}
               itemCount={data.search.nodes?.length ?? 0}
-              itemData={data.search.nodes}
+              itemData={data.search.nodes as Repository[]}
               overscanCount={5}
             >
               {renderRow}
