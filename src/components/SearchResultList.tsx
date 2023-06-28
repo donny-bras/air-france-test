@@ -9,6 +9,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { GET_REPOSITORIES } from '../apollo/queries/getRepositories';
+import { SearchType } from '../__generated__/graphql';
 
 interface RepositoriesListProps {
   query: string;
@@ -18,7 +19,7 @@ const SearchResultList = ({ query }: RepositoriesListProps) => {
   const { loading, error, data } = useQuery(GET_REPOSITORIES, {
     skip: !query,
     variables: {
-      type: 'REPOSITORY',
+      type: SearchType.Repository,
       query,
     },
   });
@@ -59,7 +60,7 @@ const SearchResultList = ({ query }: RepositoriesListProps) => {
     content = <CircularProgress />;
   } else if (error) {
     content = <Typography>An Error occurred. Please, try again.</Typography>;
-  } else if (!data?.search.nodes.length) {
+  } else if (!data?.search.nodes?.length) {
     content = (
       <Typography>
         Nothing found for <i>"{query}"</i>.
@@ -74,7 +75,7 @@ const SearchResultList = ({ query }: RepositoriesListProps) => {
               height={height}
               width={width}
               itemSize={72}
-              itemCount={data.search.nodes.length}
+              itemCount={data.search.nodes?.length ?? 0}
               itemData={data.search.nodes}
               overscanCount={5}
             >
