@@ -1,6 +1,14 @@
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from '@apollo/client';
+import { QuerySearchArgs, SearchResultItemConnection } from '../../__generated__/graphql';
 
-export const GET_REPOSITORIES = gql`
+type RepositoryData = {
+  search: SearchResultItemConnection
+}
+
+export const GET_REPOSITORIES: TypedDocumentNode<
+  RepositoryData,
+  QuerySearchArgs
+> = gql`
   query GET_REPOSITORIES($type: SearchType!, $query: String!) {
     search(type: $type, query: $query, first: 100) {
       repositoryCount
